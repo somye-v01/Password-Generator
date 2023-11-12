@@ -1,5 +1,6 @@
-import { useCallback, useState, useEffect } from 'react';
-import './App.css'
+/* eslint-disable no-unused-vars */
+import { useCallback, useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
   const [length, setlength] = useState(8)
@@ -7,30 +8,28 @@ function App() {
   const [charAllowed, setcharAllowed] = useState(false)
   const [pass, setpass] = useState("")
 
-  const passgenerator = (length, numAllow, charAllowed, setpass) => {
-    let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    if(numAllow){
-      str += "1234567890"
-    }
-    if(charAllowed){
-      str += "!@#$%^&*()-+-={}[];<>"
-    }
-    let pass = "";
-    for(let i = 0; i < length; i++){
-      pass += str[Math.floor(Math.random() * str.length )];
-    }
-    setpass = pass;
-  }
-
   const copyToClip = useCallback(() => {
     window.navigator.clipboard.writeText(pass)
   }, [pass]);
 
   useEffect(() => {
+    const passgenerator = (length, numAllow, charAllowed) => {
+      let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      if(numAllow){
+        str += "1234567890"
+      }
+      if(charAllowed){
+        str += "!@#$%^&*()-+-={}[];<>"
+      }
+      let pass = "";
+      for(let i = 0; i < length; i++){
+        pass += str[Math.floor(Math.random() * str.length )];
+      }
+      setpass(pass)
+    }
     passgenerator(length, numAllow, charAllowed)
-  }, [length, numAllow, charAllowed, passgenerator])
+  }, [length, numAllow, charAllowed])
  
-
   return (
     <>
       <h1 className='text-3xl text-center'>Password Generator </h1>
